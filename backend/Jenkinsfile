@@ -1,13 +1,18 @@
 pipeline {
     agent any
     stages {
+        stage('Prepare Build') {
+            steps {
+                sh 'cp package.json backend/'
+                sh 'cp package-lock.json backend/' // If you use package-lock.json
+            }
+        }
         stage('Build Docker Image') {
             steps {
-                dir('backend') { // Change working directory to backend
+                dir('backend') {
                     sh 'docker build -t my-mern-app:v1 .'
                 }
             }
         }
     }
 }
-
